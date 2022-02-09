@@ -54,7 +54,8 @@ in this project we choud do the same thing that pipe do.
 
 ## About functions
 ---
-* <mark>**access** :
+<span style="color: red;">**access** :</span>
+
 
 The **access()** function is used to determine whether the user has permission to access a file (or whether a file is stored
  
@@ -110,8 +111,7 @@ main() {
   }
 }
 ```
-
-* <mark>**open** :
+<span style="color: red;">**open** :</span>
 
 The **open()** function creates and returns a new file descriptor for the file named by filename. Initially, the file position indicator for the file is at the beginning of the file. The argument mode (see Permission Bits) is used only when a file is created, but it doesn’t hurt to supply the argument in any case.
 
@@ -162,7 +162,7 @@ O_TRUNC	    | Initially clear all data from the file.
 O_CREAT	    | If the file does not exist, create it. If the O_CREAT option is used, then you must include the third parameter.
 O_EXCL	    | Combined with the O_CREAT option, it ensures that the caller must create the file. If the file already exists, the call will fail.
 
-* <mark>**fork** :
+<span style="color: red;">**fork** :</span>
 
 **Fork()** system call is used for creating a new process, which is called child process, which runs concurrently with the process that makes the fork() call (parent process). After a new child process is created, both processes will execute the next instruction following the fork() system call. A child process uses the same pc(program counter), same CPU registers, same open files which use in the parent process.
 
@@ -196,7 +196,8 @@ Output:
 Hello world!
 Hello world!
 ```
-* <mark>**wait and waitpid** :
+
+<span style="color: red;">**wait and waitpid** :</span>
 
 All of these system calls are used to wait for state changes in a
 child of the calling process, and obtain information about the
@@ -236,7 +237,7 @@ waitpid() ... child1 {
 kill(child2) }
 ```
 
-* <mark>**pipe** :
+<span style="color: red;">**pipe** :</span>
 
 **pipe()** is a Linux system function. The **pipe()** system function is used to open file descriptors, which are used to communicate between different Linux processes. In short, the **pipe()** function is used for inter-process communication in Linux. 
 
@@ -275,7 +276,8 @@ int main(void) {
   return EXIT_SUCCESS;
 }
 ```
-* <mark>**dup and dup2** :
+
+<span style="color: red;">**dup and dup2** :</span>
 
 The **dup()** system call creates a copy of a file descriptor.
 
@@ -320,7 +322,7 @@ the following example redirects messages from stderr to stdout.
 dup2(2, 1); // 2-stderr; 1-stdout
 ```
 
-* <mark>**execve** :
+<span style="color: red;">**execve** :</span>
 
 **Execve()** function is used for the execution of the program that is referred to by pathname. The exec family is used mainly in the C programming language and has many functions. These functions execute a system command in a separate process from the main program and print the output. In this article, we will discuss some of the main functions of the exec family and mainly execve functions with some elementary examples.
 
