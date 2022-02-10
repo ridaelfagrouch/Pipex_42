@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-fagr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/10 20:36:42 by rel-fagr         ###   ########.fr       */
+/*   Created: 2021/11/02 13:36:16 by rel-fagr          #+#    #+#             */
+/*   Updated: 2021/11/07 12:09:33 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-char	*execv_fan(char **env, char *av);
-void	child(int fd[2], char **av, char *env[]);
-void	parent(int fd[2], char **av, char *env[]);
-void	creat_pipe(int fd[2], int pid, char **av, char *env[]);
-
-#endif
+int	ft_isprint(int c)
+{
+	if (!((c >= 32) && (c < 127)))
+		return (0);
+	else
+		return (1);
+}

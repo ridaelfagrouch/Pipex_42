@@ -218,7 +218,7 @@ The **waitpid()** system call suspends execution of the current process until a 
 **The value of pid can be:**
 
 |Tag	|	Description|
-|-------|:-------------|
+|-------|:-------------:|
 |<-1	| meaning wait for any child process whose process group ID is equal to the absolute value of pid.|
 |-1	| meaning wait for any child process.|
 |0	| meaning wait for any child process whose process group ID is equal to that of the calling process.|

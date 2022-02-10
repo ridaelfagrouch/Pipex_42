@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-fagr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/10 20:36:42 by rel-fagr         ###   ########.fr       */
+/*   Created: 2021/11/12 14:42:28 by rel-fagr          #+#    #+#             */
+/*   Updated: 2021/11/15 12:19:35 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-char	*execv_fan(char **env, char *av);
-void	child(int fd[2], char **av, char *env[]);
-void	parent(int fd[2], char **av, char *env[]);
-void	creat_pipe(int fd[2], int pid, char **av, char *env[]);
-
-#endif
+void	ft_lstadd_front(t_list **alst, t_list *new)
+{
+	if (!(*alst))
+		*alst = new;
+	else
+		new -> next = *alst;
+	*alst = new;
+}

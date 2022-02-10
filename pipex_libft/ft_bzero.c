@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rel-fagr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/10 20:36:42 by rel-fagr         ###   ########.fr       */
+/*   Created: 2021/11/03 09:51:17 by rel-fagr          #+#    #+#             */
+/*   Updated: 2021/11/14 17:59:41 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-char	*execv_fan(char **env, char *av);
-void	child(int fd[2], char **av, char *env[]);
-void	parent(int fd[2], char **av, char *env[]);
-void	creat_pipe(int fd[2], int pid, char **av, char *env[]);
+void	ft_bzero(void *s, size_t n)
+{
+	size_t		i;
+	char		*str;
 
-#endif
+	i = 0;
+	str = (char *) s;
+	while (i < n)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}
