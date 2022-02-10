@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/09 16:09:47 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:21:46 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "./libft/libft.h"
 #include <stdio.h>
 
-void	execv_fan(char **env, char *av, int *fd)
+char	*execv_fan(char **env, char *av)
 {
 	char *path_env;
 	char **path;
@@ -27,20 +27,63 @@ void	execv_fan(char **env, char *av, int *fd)
 	path = ft_split(path_env, ':');
 	while (*env)
 		printf("%s\n", *env++);
+	return ();
 }
 
-int	main(int ac, char *av[], char *env[])
+void	child(int fd[2], char *av, char *env[])
 {
-	int		fd[2];
-	int		pid;
+	int		dup_check1;
+	int		dup_check2;
 	int		cmd_find;
-	int		dup_check;
-	char	*str;
+	int		file1;
+	char	*path;
 
-	fd[0] = open(av[1], O_CREAT | O_RDWR);
-	fd[1] = open(av[4], O_CREAT | O_RDWR);
-	if (fd[0] < 0 || fd[1] < 0)
-		return (-1);
+	file1 = open(av[1], O_CREAT | O_RDWR);
+	dup_check1 = dup2(fd[1], STDOUT_FILENO);
+	dup_check2 = dup2(file1, STDIN_FILENO);
+	if (dup_check1 == -1 || dup_check2 == -1)
+	{
+		write(1, "error dup2\n", 11);
+		exit(1);
+	}
+	close(fd[0]);
+	cmd_find = access(av[2], X_OK | R_OK | F_OK);
+	if (cmd_find != 0)
+	{
+		write(1, "command does not exist\n", 23);
+		exit(1);
+	}
+	path = execv_fan(env, av);
+}
+
+void	parent(int fd[2], char *av, char *env[])
+{
+	int		dup_check1;
+	int		dup_check2;
+	int		cmd_find;
+	int		file2;
+	char	*path;
+
+	file2 = open(av[4], O_CREAT | O_RDWR);
+	dup_check1 = dup2(fd[0], STDIN_FILENO);
+	dup_check2 = dup2(file2, STDOUT_FILENO);
+	if (dup_check1 == -1 || dup_check2 == -1)
+	{
+		write(1, "error dup2\n", 11);
+		exit(1);
+	}
+	close(fd[1]);
+	cmd_find = access(av[3], X_OK | R_OK | F_OK);
+	if (cmd_find != 0)
+	{
+		write(1, "command does not exist\n", 23);
+		exit(1);
+	}
+	path = execv_fan(env, av);
+}
+
+void	creat_pipe(int fd, int pid, char *av, char *env[])
+{
 	if (pipe(fd) == -1)
 	{
 		write(1, "error ocurred with opening the pipe\n", 36);
@@ -53,41 +96,25 @@ int	main(int ac, char *av[], char *env[])
 		exit(1);
 	}
 	if (pid == 0)
-	{
-		dup_check = dup2(fd[1], STDOUT_FILENO);
-		if (dup_check == -1)
-		{
-			write(1, "error dup2\n", 11);
-			exit(1);
-		}
-		close(fd[0]);
-		cmd_find = access(av[2], X_OK | R_OK | F_OK);
-		if (cmd_find == -1)
-		{
-			write(1, "command does not exist\n", 23);
-			exit(1);
-		}
-		execv_fan(env, av[2], &fd[1]);
-	}
+		child(fd, av, env);
 	else
 	{
 		wait(NULL);
-		dup_check = dup2(fd[0], STDIN_FILENO);
-		if (dup_check == -1)
-		{
-			write(1, "error dup2\n", 11);
-			exit(1);
-		}
-		close(fd[1]);
-		cmd_find = access(av[3], X_OK | R_OK | F_OK);
-		if (cmd_find == -1)
-		{
-			write(1, "command does not exist\n", 23);
-			exit(1);
-		}
-		execv_fan(env, av[2], &fd[1]);
+		parent(fd, av, env);
 	}
-	// // close(fd[1]);
-	// // close(fd[0]);
-	return(0);
+}
+
+int	main(int ac, char *av[], char *env[])
+{
+	int		fd[2];
+	int		pid;
+
+	if (ac == 5)
+		creat_pipe(fd, pid, av, env);
+	else
+	{
+		write(1, "error!!", 7);
+		exit(1);
+	}
+	return (0);
 }
