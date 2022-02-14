@@ -1,0 +1,14 @@
+The primitive for creating 
+a pipe is the pipe function. This
+ creates both the reading and 
+ writing ends of the pipe. It is 
+ not very useful for a single 
+ process to use a pipe to talk 
+ to itself. In typical use, a process 
+ creates a pipe just before it forks
+  one or more child processes 
+  (see Creating a Process). 
+  The pipe is then used for 
+  communication either between
+   the parent or child processes, 
+    or between two sibling processes.

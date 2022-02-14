@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/10 21:10:58 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/14 03:24:00 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,127 +19,163 @@
 #include <stdio.h>
 #include "pipex.h"
 
-char	*execv_fan(char **env, char *av)
+// void red () {
+//   printf("\033[1;31m");
+// }
+
+// void reset () {
+//   printf("\033[0m");
+// }
+
+// void yellow (){
+//   printf("\033[1;33m");
+// }
+
+
+void	free_split(char **ptr)
 {
-	char	**path_split;
-	char	*path;
-	char	**cmd_split;
-	char	*cmd;
-	char	*final_path;
-	int		i;
-	char	*ptr;
+	int	i;
 
 	i = 0;
-	if (ft_strchr(av, ' ') != 0)
+	while (ptr[i] != NULL)
 	{
-		cmd_split = ft_split(av, ' ');
-		cmd = cmd_split[0];
-	}
-	else
-		cmd = av;
-	while (env[i])
-	{
-		if (ft_strnstr(env[i], "PATH", 4) != NULL)
-		{
-			path = ft_strdup(&env[i][5]);
-			break ;
-		}
+		free(ptr[i]);
 		i++;
 	}
-	path_split = ft_split(path, ':');
-	i = 0;
-	while (path_split[i])
+	free(ptr);
+}
+
+char	*get_path(char **env, char *av, t_data *data)
+{
+	data->i = 0;
+	data->path = NULL;
+	if (ft_strchr(av, ' ') != 0)
 	{
-		ptr = ft_strjoin(path_split[i], "/");
-		final_path = ft_strjoin(ptr, cmd);
-		free(ptr);
-		if (access(final_path, F_OK) == 0)
+		data->cmd_split = ft_split(av, ' ');
+		data->cmd = ft_strdup(data->cmd_split[0]);
+		free_split(data->cmd_split);
+	}
+	else
+		data->cmd = av;
+	while (env[data->i])
+	{
+		if (ft_strnstr(env[data->i], "PATH", 4) != NULL)
+		{
+			data->path = ft_strtrim(env[data->i], "PATH=");
+			break ;
+		}
+		data->i++;
+	}
+	data->path_split = ft_split(data->path, ':');
+	free(data->path);
+	data->i = 0;
+	while (data->path_split[data->i])
+	{
+		data->ptr = ft_strjoin(data->path_split[data->i], "/");
+		data->final_path = ft_strjoin(data->ptr, data->cmd);
+		free(data->ptr);
+		data->check_access = access(data->final_path, X_OK);
+		if (data->check_access == 0)
 			break ;
 		else
-			free(final_path);
+			free(data->final_path);
+		data->i++;
 	}
-	return (final_path);
+	if (data->check_access != 0)
+	{
+		write(data->dap_out, "error! path not found\n", 23);
+		exit(1);
+	}
+	free_split(data->path_split);
+	return (data->final_path);
 }
 
 //****************************************************
 
-void	child(int fd[2], char **av, char *env[])
+void	child(int fd[2], char **av, char *env[], t_data *data)
 {
-	int		dup_check1;
-	int		dup_check2;
-	int		cmd_find;
-	int		file1;
-	char	*path;
+	char	**str;
 
-	file1 = open(av[1], O_CREAT, 0666);
-	dup_check1 = dup2(fd[1], STDOUT_FILENO);
-	dup_check2 = dup2(file1, STDIN_FILENO);
-	if (dup_check1 == -1 || dup_check2 == -1)
+	// if (ft_strncmp(av[2], "ls -lR /", 8) == 0 || \
+	// 	ft_strncmp(av[2], "ls -LR /", 8) == 0)
+	// {
+	// 	write(data->dap_out, "output of cmd to big!\n", 22);
+	// 	exite(1);
+	// }
+	data->pro.path = NULL;
+	data->pro.dup_check1 = dup2(fd[1], STDOUT_FILENO);
+	data->pro.dup_check2 = dup2(data->pro.file1, STDIN_FILENO);
+	if (data->pro.dup_check1 == -1 || data->pro.dup_check2 == -1)
 	{
-		write(1, "error dup2\n", 11);
+		write(data->dap_out, "error dup2\n", 11);
 		exit(1);
 	}
 	close(fd[0]);
-	cmd_find = access(av[2], F_OK);
-	if (cmd_find != 0)
-	{
-		write(1, "command does not exist\n", 23);
-		exit(1);
-	}
-	path = execv_fan(env, av[2]);
-	execve(path, (char *const *)av[2], env);
+	data->pro.path = get_path(env, av[2], data);
+	str = ft_split(av[2], ' ');
+	execve(data->pro.path, str, env);
 }
 
 //****************************************************
 
-void	parent(int fd[2], char **av, char *env[])
+void	parent(int fd[2], char **av, char *env[], t_data *data)
 {
-	int		dup_check1;
-	int		dup_check2;
-	int		cmd_find;
-	int		file2;
-	char	*path;
+	char	**str;
 
-	file2 = open(av[4], O_CREAT, 0666);
-	dup_check1 = dup2(fd[0], STDIN_FILENO);
-	dup_check2 = dup2(file2, STDOUT_FILENO);
-	if (dup_check1 == -1 || dup_check2 == -1)
+	// if (ft_strncmp(av[3], "ls -lR /", 8) == 0 || \
+	// 	ft_strncmp(av[3], "ls -LR /", 8) == 0)
+	// {
+	// 	write(data->dap_out, "output of cmd to big!\n", 22);
+	// 	exite(1);
+	// }
+	data->pro.path = NULL;
+	data->pro.dup_check1 = dup2(fd[0], STDIN_FILENO);
+	data->pro.dup_check2 = dup2(data->pro.file2, STDOUT_FILENO);
+	if (data->pro.dup_check1 == -1 || data->pro.dup_check2 == -1)
 	{
-		write(1, "error dup2\n", 11);
+		write(data->dap_out, "error dup2\n", 11);
 		exit(1);
 	}
 	close(fd[1]);
-	cmd_find = access(av[3], F_OK);
-	if (cmd_find != 0)
-	{
-		write(1, "command does not exist\n", 23);
-		exit(1);
-	}
-	path = execv_fan(env, av[3]);
-	execve(path, (char *const *)av[3], env);
+	data->pro.path = get_path(env, av[3], data);
+	str = ft_split(av[3], ' ');
+	execve(data->pro.path, str, env);
 }
 
 //****************************************************
 
-void	creat_pipe(int fd[2], int pid, char **av, char *env[])
+void	creat_pipe(char **av, char *env[], t_data *data)
 {
+	int	pid;
+	int	fd[2];
+
 	if (pipe(fd) == -1)
 	{
 		write(1, "error ocurred with opening the pipe\n", 36);
 		exit(1);
 	}
+	if (access(av[1], F_OK) != 0)
+	{
+		write(data->dap_out, "filein not exist!\n", 18);
+		exit(1);
+	}
+	if (access(av[1], R_OK) != 0)
+		data->pro.file1 = open(av[1], O_RDONLY | 00400);
+	if(access(av[4], F_OK) != 0)
+		data->pro.file2 = open(av[4], O_CREAT | O_RDWR, 00774);
+	
 	pid = fork();
 	if (pid == -1)
 	{
-		write(1, "error fork\n", 11);
+		write(data->dap_out, "error fork\n", 11);
 		exit(1);
 	}
 	if (pid == 0)
-		child(fd, av, env);
+		child(fd, av, env, data);
 	else
 	{
 		wait(NULL);
-		parent(fd, av, env);
+		parent(fd, av, env, data);
 	}
 }
 
@@ -147,15 +183,14 @@ void	creat_pipe(int fd[2], int pid, char **av, char *env[])
 
 int	main(int ac, char *av[], char *env[])
 {
-	int		fd[2];
-	int		pid;
+	t_data	data;
 
-	pid = 0;
+	data.dap_out = dup(1);
 	if (ac == 5)
-		creat_pipe(fd, pid, av, env);
+		creat_pipe(av, env, &data);
 	else
 	{
-		write(1, "error!!", 7);
+		write(data.dap_out, "error!!", 7);
 		exit(1);
 	}
 	return (0);
