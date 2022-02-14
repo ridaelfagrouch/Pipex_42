@@ -1,4 +1,4 @@
-CFILES = pipex.c pipex_utils.c
+CFILES = pipex.c pipex_utils1.c pipex_utils2.c pipex_utils3.c pipex_utils4.c
 
 OFILES = ${CFILES:.c=.o}
 
@@ -38,8 +38,7 @@ all : ${NAME}
 	@echo " ${RED}$$HEADER${NC} "
 
 ${NAME} : ${OFILES}
-	@make -C ./pipex_libft
-	@$(CC) $(OFILES) $(W) ./pipex_libft/libft.a -o $(NAME)
+	@$(CC) $(OFILES) $(W) -o $(NAME)
 	@echo "${YELLOW}$(NAME) created ${NC}"
 
 %.o:%.c ${INC}
@@ -48,12 +47,10 @@ ${NAME} : ${OFILES}
 
 clean:
 	@rm -f *.o
-	@make clean -C ./pipex_libft
 
 fclean : clean
 	@rm -f file2.txt
 	@rm -f ${NAME}
-	@make fclean -C ./pipex_libft
 
 re : fclean all
 

@@ -6,14 +6,13 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/14 16:03:49 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/14 19:58:47 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
-void	child(int fd[2], char **av, char *env[], t_data *data)
+static void	child(int fd[2], char **av, char *env[], t_data *data)
 {
 	char	**str;
 
@@ -33,7 +32,7 @@ void	child(int fd[2], char **av, char *env[], t_data *data)
 
 //****************************************************
 
-void	parent(int fd[2], char **av, char *env[], t_data *data)
+static void	parent(int fd[2], char **av, char *env[], t_data *data)
 {
 	char	**str;
 
@@ -53,7 +52,7 @@ void	parent(int fd[2], char **av, char *env[], t_data *data)
 
 //****************************************************
 
-void	check_file_access(t_data *data, char **av)
+static void	check_file_access(t_data *data, char **av)
 {
 	if (access(av[1], F_OK) != 0)
 	{
@@ -82,7 +81,7 @@ void	check_file_access(t_data *data, char **av)
 
 //****************************************************
 
-void	creat_pipe(char **av, char *env[], t_data *data)
+static void	creat_pipe(char **av, char *env[], t_data *data)
 {
 	int	pid;
 	int	fd[2];
