@@ -12,9 +12,10 @@ INC = pipex.h
 # INC_B = pipex_bonus.h
 NAME = pipex
 
-YELLOW='\033[1;33m'
-NC='\033[0m'
-GREEN='\033[0;32m'
+YELLOW=\033[1;33m
+NC=\033[0m
+GREEN=\033[0;32m
+RED=\033[0;31m
 
 define HEADER
 			      ___                     ___         ___           ___      
@@ -34,7 +35,7 @@ export HEADER
 
 all : ${NAME}
 
-	@echo "$$HEADER"
+	@echo " ${RED}$$HEADER${NC} "
 
 ${NAME} : ${OFILES}
 	@make -C ./pipex_libft
