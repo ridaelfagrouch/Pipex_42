@@ -6,12 +6,20 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/14 01:49:38 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:21:36 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# include <unistd.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include "./pipex_libft/libft.h"
+# include <stdio.h>
 
 typedef struct d_process
 {
@@ -34,7 +42,6 @@ typedef struct d_data
 	char		*ptr;
 	int			dap_out;
 	t_process	pro;
-	
 }	t_data;
 
 char	*execv_fan(char **env, char *av);

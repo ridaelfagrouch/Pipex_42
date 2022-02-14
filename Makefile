@@ -1,4 +1,4 @@
-CFILES = pipex.c
+CFILES = pipex.c pipex_utils.c
 
 OFILES = ${CFILES:.c=.o}
 
@@ -34,14 +34,14 @@ export HEADER
 
 all : ${NAME}
 
+	@echo "$$HEADER"
 
-${NAME} : ${OFILES} 
+${NAME} : ${OFILES}
 	@make -C ./pipex_libft
 	@$(CC) $(OFILES) $(W) ./pipex_libft/libft.a -o $(NAME)
 	@echo "${YELLOW}$(NAME) created ${NC}"
 
 %.o:%.c ${INC}
-	@echo "$$HEADER"
 	@${CC} ${W} -o $@ -c $<
 	@echo "${GREEN}$@ created${NC}"
 
