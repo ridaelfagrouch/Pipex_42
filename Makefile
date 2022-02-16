@@ -2,14 +2,14 @@ CFILES = pipex.c pipex_utils1.c pipex_utils2.c pipex_utils3.c pipex_utils4.c
 
 OFILES = ${CFILES:.c=.o}
 
-# CBONUS = 
+CBONUS = pipex_bonus.c pipex_utils1_bonus.c pipex_utils2_bonus.c pipex_utils3_bonus.c pipex_utils4_bonus.c
 
-# OBONUS = ${CBONUS:.c=.o}
+OBONUS = ${CBONUS:.c=.o}
 
 CC = gcc
 W = -Wall -Werror -Wextra
 INC = pipex.h
-# INC_B = pipex_bonus.h
+INCB = pipex_bonus.h
 NAME = pipex
 
 YELLOW=\033[1;33m
@@ -45,6 +45,10 @@ ${NAME} : ${OFILES}
 	@${CC} ${W} -o $@ -c $<
 	@echo "${GREEN}$@ created${NC}"
 
+%.o:%.c ${INCB}
+	@${CC} ${W} -o $@ -c $<
+	@echo "${GREEN}$@ created${NC}"
+
 clean:
 	@rm -f *.o
 
@@ -56,6 +60,5 @@ re : fclean all
 
 .PHONY: all clean fclean re
 
-# bonus: all ${OBONUS} $(INC_B)
-# 	@$(CC) $(OBONUS) $(W) ./pipex_libft/libft.a  -o $(NAME)
-# 	@echo "$(NAME) created"
+bonus: all ${OBONUS} $(INCB)
+	@$(CC) $(OBONUS) $(W) -o $(NAME)
