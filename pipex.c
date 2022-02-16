@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/14 19:58:47 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/16 15:10:03 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ static void	creat_pipe(char **av, char *env[], t_data *data)
 	if (pid == 0)
 		child(fd, av, env, data);
 	else
-	{
-		wait(NULL);
 		parent(fd, av, env, data);
-	}
+	waitpid(pid, NULL, 0);
 }
 
 //****************************************************
@@ -114,7 +112,7 @@ int	main(int ac, char *av[], char *env[])
 	t_data	data;
 
 	data.dap_out = dup(1);
-	if (ac == 5)
+	if (ac == 5 && env[0] != NULL)
 		creat_pipe(av, env, &data);
 	else
 	{

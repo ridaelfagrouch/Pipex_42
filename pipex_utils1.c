@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/14 20:18:55 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/14 22:14:39 by rel-fagr         ###   ########.fr       */
+/*   Created: 2022/02/16 15:09:19 by rel-fagr          #+#    #+#             */
+/*   Updated: 2022/02/16 15:09:30 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//******************************************************************************
+//***********************free_split*****************************
 
 void	free_split(char **ptr)
 {
@@ -27,7 +27,7 @@ void	free_split(char **ptr)
 	free(ptr);
 }
 
-//******************************************************************************
+//*************************found_path***************************
 
 char	*found_path(t_data *data)
 {
@@ -36,7 +36,7 @@ char	*found_path(t_data *data)
 		data->ptr = ft_strjoin(data->path_split[data->i], "/");
 		data->final_path = ft_strjoin(data->ptr, data->cmd);
 		free(data->ptr);
-		data->check_access = access(data->final_path, X_OK);
+		data->check_access = access(data->final_path, X_OK | F_OK);
 		if (data->check_access == 0)
 			break ;
 		else
@@ -52,20 +52,33 @@ char	*found_path(t_data *data)
 	return (data->final_path);
 }
 
-//******************************************************************************
+//*************************check_cmd***************************
 
-char	*get_path(char **env, char *av, t_data *data)
+void	check_cmd(t_data *data, char *av)
 {
-	data->i = 0;
-	data->path = NULL;
 	if (ft_strchr(av, ' ') != 0)
 	{
 		data->cmd_split = ft_split(av, ' ');
+		if (data->cmd_split[0] == NULL)
+		{
+			write(data->dap_out, "command not found!\n", 19);
+			exit(1);
+		}
 		data->cmd = ft_strdup(data->cmd_split[0]);
 		free_split(data->cmd_split);
 	}
 	else
 		data->cmd = av;
+}
+
+//************************get_path****************************
+
+char	*get_path(char **env, char *av, t_data *data)
+{
+	data->i = 0;
+	data->path = NULL;
+	data->cmd_split = NULL;
+	check_cmd(data, av);
 	while (env[data->i])
 	{
 		if (ft_strnstr(env[data->i], "PATH", 4) != NULL)
@@ -75,10 +88,13 @@ char	*get_path(char **env, char *av, t_data *data)
 		}
 		data->i++;
 	}
+	if (data->path == NULL)
+	{
+		write(1, "path not found!\n", 16);
+		exit(1);
+	}
 	data->path_split = ft_split(data->path, ':');
 	free(data->path);
 	data->i = 0;
 	return (found_path(data));
 }
-
-//******************************************************************************

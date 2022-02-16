@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 20:19:42 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/14 20:20:28 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/16 11:41:10 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		end--;
 	str = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!str)
-		return (NULL);
+		exit(1);
 	while (start < end)
 		str[i++] = s1[start++];
 	str[i] = '\0';
@@ -123,7 +123,7 @@ char	**ft_split(char const *s, char c)
 		count++;
 	result = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!result)
-		return (0);
+		exit (1);
 	result[count] = NULL;
 	return (ft_creat(tmp1, result, c, count));
 }
