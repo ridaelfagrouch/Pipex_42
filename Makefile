@@ -2,7 +2,8 @@ CFILES = pipex.c pipex_utils1.c pipex_utils2.c pipex_utils3.c pipex_utils4.c
 
 OFILES = ${CFILES:.c=.o}
 
-CBONUS = pipex_bonus.c pipex_utils1_bonus.c pipex_utils2_bonus.c pipex_utils3_bonus.c pipex_utils4_bonus.c
+CBONUS = pipex_bonus.c pipex_utils1_bonus.c pipex_utils2_bonus.c pipex_utils3_bonus.c pipex_utils4_bonus.c \
+		get_next_line_utils.c get_next_line.c
 
 OBONUS = ${CBONUS:.c=.o}
 
@@ -53,7 +54,7 @@ clean:
 	@rm -f *.o
 
 fclean : clean
-	@rm -f file2.txt
+	@rm -f file2
 	@rm -f ${NAME}
 
 re : fclean all
@@ -61,4 +62,4 @@ re : fclean all
 .PHONY: all clean fclean re
 
 bonus: all ${OBONUS} $(INCB)
-	@$(CC) $(OBONUS) $(W) -o $(NAME)
+	@$(CC) $(OBONUS) $(W) -o $(NAME) 

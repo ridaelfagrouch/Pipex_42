@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/16 18:10:45 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:18:21 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct d_process
 {
 	int		dup_check1;
 	int		dup_check2;
+	int		dup_check3;
 	char	*path;
 	int		file1;
 	int		file2;
@@ -42,8 +43,22 @@ typedef struct d_data
 	int			check_access;
 	char		*ptr;
 	int			dap_out;
+	char		*limiter;
+	pid_t		pid;
 	t_process	pro;
 }	t_data;
+
+
+//*****************************GET_NEXT_LINE********************************
+
+# define BUFFER_SIZE 940
+
+char	*get_next_line(int fd);
+size_t	ft_strlen1(char *str);
+char	*ft_substr1(char *s, unsigned int start, unsigned int len);
+void	ft_bzero1(void *s, size_t n);
+
+//*****************************pipex_bonus********************************
 
 char	*execv_fan(char **env, char *av);
 void	free_split(char **ptr);
