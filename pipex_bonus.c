@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:47:57 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/18 17:40:34 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:49:58 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,26 @@ void	check_dap_creat(t_data *data, char **av, char **env)
 	data->pro.path = get_path(env, av[data->ac - 2], data);
 	str = ft_split(av[data->ac - 2], ' ');
 	execve(data->pro.path, str, env);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t			i;
+	unsigned char	*str;
+	unsigned char	*stp;
+
+	i = 0;
+	str = (unsigned char *) s2;
+	stp = (unsigned char *) s1;
+	if (n == 0)
+		return (0);
+	while (stp[i] && str[i] && i < (n - 1))
+	{
+		if (stp[i] != str[i])
+			return (stp[i] - str[i]);
+		i++;
+	}
+	return (stp[i] - str[i]);
 }
 
 // void	her_doc_(t_data *data)
