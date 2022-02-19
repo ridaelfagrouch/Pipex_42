@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/18 16:18:21 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/19 22:24:43 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <stdio.h>
+# include <stdarg.h>
 
 typedef struct d_process
 {
@@ -43,11 +45,10 @@ typedef struct d_data
 	int			check_access;
 	char		*ptr;
 	int			dap_out;
-	char		*limiter;
+	int			fd[2];
 	pid_t		pid;
 	t_process	pro;
 }	t_data;
-
 
 //*****************************GET_NEXT_LINE********************************
 
