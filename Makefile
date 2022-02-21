@@ -1,16 +1,16 @@
-CFILES = pipex.c foundPath.c joinChrNstr.c splitTrim.c substrDup.c
+CFILES = ./mandatory/pipex.c ./mandatory/foundPath.c ./mandatory/joinChrNstr.c ./mandatory/splitTrim.c ./mandatory/substrDup.c
 
 OFILES = ${CFILES:.c=.o}
 
-CBONUS = pipex_bonus.c foundPath_bonus.c joinChrNstr_bonus.c splitTrim_bonus.c substrDup_bonus.c \
-	get_next_line_utils.c get_next_line.c here_doc_.c
+CBONUS = ./bonus/pipex_bonus.c ./bonus/foundPath_bonus.c ./bonus/joinChrNstr_bonus.c ./bonus/splitTrim_bonus.c ./bonus/substrDup_bonus.c \
+	./bonus/get_next_line_utils.c ./bonus/get_next_line.c ./bonus/here_doc_.c
 
 OBONUS = ${CBONUS:.c=.o}
 
 CC = gcc
 W = -Wall -Werror -Wextra
-INC = pipex.h
-INCB = pipex_bonus.h
+INC = ./mandatory/pipex.h
+INCB = ./bonus/pipex_bonus.h
 NAME = pipex
 
 YELLOW=\033[1;33m
@@ -51,7 +51,8 @@ ${NAME} : ${OFILES}
 	@echo "${GREEN}$@ created${NC}"
 
 clean:
-	@rm -f *.o
+	@rm -f ./mandatory/*.o
+	@rm -f ./bonus/*.o
 
 fclean : clean
 	@rm -f .temp
