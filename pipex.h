@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/18 10:29:16 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/21 11:36:31 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # include <sys/wait.h>
 # include <stdio.h>
 
-typedef struct d_process
+typedef struct d_proc
 {
 	int		dup_check1;
 	int		dup_check2;
 	char	*path;
 	int		file1;
 	int		file2;
-}	t_process;
+}	t_proc;
 
 typedef struct d_data
 {
@@ -40,7 +40,7 @@ typedef struct d_data
 	int			check_access;
 	char		*ptr;
 	int			dap_out;
-	t_process	pro;
+	t_proc		pro;
 }	t_data;
 
 char	*execv_fan(char **env, char *av);

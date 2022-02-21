@@ -1,9 +1,9 @@
-CFILES = pipex.c pipex_utils1.c pipex_utils2.c pipex_utils3.c pipex_utils4.c
+CFILES = pipex.c foundPath.c joinChrNstr.c splitTrim.c substrDup.c
 
 OFILES = ${CFILES:.c=.o}
 
-CBONUS = pipex_bonus.c pipex_utils1_bonus.c pipex_utils2_bonus.c pipex_utils3_bonus.c pipex_utils4_bonus.c \
-		get_next_line_utils.c get_next_line.c
+CBONUS = pipex_bonus.c foundPath_bonus.c joinChrNstr_bonus.c splitTrim_bonus.c substrDup_bonus.c \
+	get_next_line_utils.c get_next_line.c here_doc_.c
 
 OBONUS = ${CBONUS:.c=.o}
 

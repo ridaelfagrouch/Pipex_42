@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 17:30:35 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/19 22:24:43 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/21 11:34:45 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,12 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_create_str(int len);
+void	here_doc_pipe(t_data *data, char **av);
+void	here_doc_(t_data *data, char **av);
+void	check_dap_creat(t_data *data, char **av, char **env);
+void	dup_file(t_data *data, char **av);
+void	check_file_access(t_data *data, char **av);
+void	creat_pipe(char *av, char *env[], t_data *data);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif
