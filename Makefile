@@ -54,6 +54,7 @@ clean:
 	@rm -f *.o
 
 fclean : clean
+	@rm -f .temp
 	@rm -f file2
 	@rm -f ${NAME}
 

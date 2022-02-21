@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 11:35:47 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/21 11:36:08 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/21 17:18:42 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ void	here_doc_(t_data *data, char **av)
 {
 	char	*ptr;
 
+	data->pro.file1 = open(".temp", O_CREAT | O_RDWR | O_TRUNC, 00777);
+	if (data->pro.file1 < 0)
+	{
+		write(data->dap_out, "error! opening the temp\n", 24);
+		exit(1);
+	}
 	while (1)
 	{
 		write(0, "heredoc> ", 9);
@@ -91,31 +97,33 @@ void	here_doc_(t_data *data, char **av)
 			free(ptr);
 			break ;
 		}
-		write(data->fd[1], ptr, ft_strlen(ptr));
+		write(data->pro.file1, ptr, ft_strlen(ptr));
+		write(data->pro.file1, "\n", 1);
 		free(ptr);
 	}
+	dup2(data->pro.file1, STDIN_FILENO);
 }
 
 //****************************************************
 
-void	here_doc_pipe(t_data *data, char **av)
-{
-	if (pipe(data->fd) == -1)
-	{
-		write(data->dap_out, "error ocurred with opening the pipe\n", 36);
-		exit(1);
-	}
-	data->pid = fork();
-	if (data->pid == 0)
-	{
-		close(data->fd[0]);
-		dup2(data->fd[1], STDOUT_FILENO);
-		here_doc_(data, av);
-	}
-	else
-	{
-		wait(NULL);
-		dup2(data->fd[0], STDIN_FILENO);
-		close(data->fd[1]);
-	}
-}
+// void	here_doc_pipe(t_data *data, char **av)
+// {
+// 	if (pipe(data->fd) == -1)
+// 	{
+// 		write(data->dap_out, "error ocurred with opening the pipe\n", 36);
+// 		exit(1);
+// 	}
+// 	data->pid = fork();
+// 	if (data->pid == 0)
+// 	{
+// 		close(data->fd[0]);
+// 		dup2(data->fd[1], STDOUT_FILENO);
+// 		here_doc_(data, av);
+// 	}
+// 	else
+// 	{
+// 		wait(NULL);
+// 		dup2(data->fd[0], STDIN_FILENO);
+// 		close(data->fd[1]);
+// 	}
+// }

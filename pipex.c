@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/20 18:43:10 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/21 13:38:05 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,6 @@ int	main(int ac, char *av[], char *env[])
 		write(data.dap_out, "error!!", 7);
 		exit(1);
 	}
+	system("leaks pipex");
 	return (0);
 }

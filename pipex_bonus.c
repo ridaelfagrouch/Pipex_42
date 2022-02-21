@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:47:57 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/21 11:34:32 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/21 17:29:33 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	child(char *av, char *env[], t_data *data)
 
 static void	parent(t_data *data)
 {
-	wait(NULL);
 	data->pro.dup_check1 = dup2(data->fd[0], STDIN_FILENO);
 	if (data->pro.dup_check1 == -1)
 	{
@@ -57,6 +56,7 @@ static void	parent(t_data *data)
 		exit(1);
 	}
 	close(data->fd[1]);
+	wait(NULL);
 }
 
 //****************************************************
@@ -93,7 +93,7 @@ int	main(int ac, char *av[], char *env[])
 	{
 		if (ft_strcmp(av[1], "here_doc") == 0)
 		{
-			here_doc_pipe(&data, av);
+			here_doc_(&data, av);
 			data.j = 3;
 		}
 		check_dap_creat(&data, av, env);
@@ -103,5 +103,6 @@ int	main(int ac, char *av[], char *env[])
 		write(data.dap_out, "error!!", 7);
 		exit(1);
 	}
+	system("leaks pipex");
 	return (0);
 }
