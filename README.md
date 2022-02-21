@@ -394,3 +394,39 @@ hello world
 
 ## Compiling and running
 ---
+
+* **for mandatory part** :
+
+Run <mark>make</mark>.
+
+![image](assets/pipex_manda.png)
+
+```bash
+$ make
+$ ./pipex file1 cmd1 cmd2 file2
+```
+
+* **for bonus part** :
+
+Run <mark>make bonus</mark>.
+
+![image](assets/pipex_bonus.png)
+
+```bash
+$ make bonus
+$  ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
+```
+
+Support « and » when the first parameter is "here_doc".
+
+you can ran it like this.
+
+```bash
+$ make bonus
+$  ./pipex here_doc LIMITER cmd cmd1 file2
+```
+Should behave like:
+
+```bash
+$  cmd << LIMITER | cmd1 >> file
+```
