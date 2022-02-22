@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 12:45:01 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/21 13:38:05 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:19:41 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ static void	creat_pipe(char **av, char *env[], t_data *data)
 		child(fd, av, env, data);
 	else
 	{
-		waitpid(pid, NULL, 0);
 		parent(fd, av, env, data);
+		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -123,6 +123,5 @@ int	main(int ac, char *av[], char *env[])
 		write(data.dap_out, "error!!", 7);
 		exit(1);
 	}
-	system("leaks pipex");
 	return (0);
 }

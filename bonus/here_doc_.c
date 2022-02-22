@@ -6,7 +6,7 @@
 /*   By: rel-fagr <rel-fagr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 11:35:47 by rel-fagr          #+#    #+#             */
-/*   Updated: 2022/02/21 17:18:42 by rel-fagr         ###   ########.fr       */
+/*   Updated: 2022/02/22 10:06:11 by rel-fagr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,27 +103,3 @@ void	here_doc_(t_data *data, char **av)
 	}
 	dup2(data->pro.file1, STDIN_FILENO);
 }
-
-//****************************************************
-
-// void	here_doc_pipe(t_data *data, char **av)
-// {
-// 	if (pipe(data->fd) == -1)
-// 	{
-// 		write(data->dap_out, "error ocurred with opening the pipe\n", 36);
-// 		exit(1);
-// 	}
-// 	data->pid = fork();
-// 	if (data->pid == 0)
-// 	{
-// 		close(data->fd[0]);
-// 		dup2(data->fd[1], STDOUT_FILENO);
-// 		here_doc_(data, av);
-// 	}
-// 	else
-// 	{
-// 		wait(NULL);
-// 		dup2(data->fd[0], STDIN_FILENO);
-// 		close(data->fd[1]);
-// 	}
-// }
